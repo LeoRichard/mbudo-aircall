@@ -163,18 +163,16 @@ app.use(bodyParser.json());
           
           console.log("User found on Hubspot: ", data.results[0].properties.firstname);
 
+          if(data.results[0].properties.hubspot_owner_id === null) {
+            console.log('User has no owner assigned on Hubspot, aborting redirection.');
+            console.log("------------------------------");
+            return;
+          }
+
           // 2. Get the associated agent's email
           myApp.getAssociatedAgentEmail(data.results[0].properties.hubspot_owner_id).then(data => {
             
             const owner = JSON.parse(data);
-            
-            // If contact doesnt have an owner
-            if(owner.email === undefined) {
-              console.log('User has no owner assigned on Hubspot, aborting redirection.');
-              console.log("------------------------------");
-              return;
-            }
-  
             console.log("Owner on Hubspot found: ", owner.email);
             
             // 3. Retrieve the agent's Aircall id in a callback
