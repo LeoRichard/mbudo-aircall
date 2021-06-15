@@ -97,7 +97,14 @@ app.use(bodyParser.json());
             return;
           }
 
-          callback(agent.id);
+          // Check agent status
+          if(agent.available && agent.availability_status === 'available') {
+            callback(agent.id);
+          } else {
+            console.log("Agent not available, aborting redirection.")
+            console.log("------------------------------");
+            return;
+          }
         });
       } catch (error) {
         console.log("Error: ", error);
