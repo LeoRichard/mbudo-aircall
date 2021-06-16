@@ -97,6 +97,9 @@ app.use(bodyParser.json());
             return;
           }
 
+          console.log("Agent availability status: ", agent.availability_status);
+          console.log("Agent available status: ", agent.available);
+
           // Check agent status
           if(agent.available && agent.availability_status === 'available') {
             callback(agent.id);
